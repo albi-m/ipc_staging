@@ -1,14 +1,13 @@
 <odoo>
     <data>
 
-        <record id="stock_move_inherit" model="ir.ui.view">
+        <record id="stock_picking_inherit" model="ir.ui.view">
             <field name="name">Show Available Qty</field>
-            <field name="model">stock.move</field>
+            <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='operations']/field/tree/field[@name='product_uom_qty']" position="after">
-                    <field name="available_reserved_qty"
-                           attrs="{'invisible': [('forecast_availability', '!=', False)]}"/>
+                    <field name="available_reserved_qty" optional="hidden"/>
                 </xpath>
             </field>
         </record>
