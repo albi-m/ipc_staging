@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+
+        <record id="res_partner_wizard" model="ir.ui.view">
+            <field name="name">Rename Wizard</field>
+            <field name="model">rename.company.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        Give a name to identify company contacts
+                        <field name="name"/>
+                    </sheet>
+                    <footer>
+                        <button name="rename_company" type="object" string="Rename"/>
+                        <button name="remove_rename" type="object" string="Undo rename"/>
+                        <button string="Close" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="res_partner_wizard_action" model="ir.actions.act_window">
+            <field name="name">Rename company</field>
+            <field name="res_model">rename.company.wizard</field>
+            <field name="view_mode">form</field>
+             <field name="view_id" ref="res_partner_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="rename_company" name="Rename Company"
+                  action="res_partner_wizard_action" parent="base.menu_users"
+                  sequence="500" />
+
+    </data>
+</odoo>

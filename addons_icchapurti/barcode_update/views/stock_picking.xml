@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+
+        <record id="stock_picking_form_inherit" model="ir.ui.view">
+            <field name="name">order_tree_view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <field name="show_reserved_availability" position="after">
+                    <field name="sort_field" invisible="1"/>
+                </field>
+                <xpath expr="//page[@name='operations']/field[@name='move_ids_without_package']/tree" position="attributes">
+                    <attribute name="default_order">sort_field desc</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

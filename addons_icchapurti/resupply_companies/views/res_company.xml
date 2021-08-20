@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+
+        <record id="resupply_company" model="ir.ui.view">
+            <field name="name">resupply.company</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_title')]" position="before">
+                    <field name="company_type" widget="radio" required="1"
+                           options="{'horizontal': true}"/>
+                </xpath>
+
+                <field name="favicon" position="after">
+                    <field name="resupply_company" attrs="{'invisible': [('company_type', '!=', 'bp')]}"/>
+                    <field name="is_same_company" invisible="1"/>
+                    <button name="apply_resupply_company" type="object"
+                            string="Apply Resupply companies"
+                            attrs="{'invisible': ['|', ('is_same_company', '=', False), ('resupply_company', '=', False)]}"/>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

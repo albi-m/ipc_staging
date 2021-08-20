@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_proforma_doc">
+        <t t-call="web.html_container">
+            <t t-call="proforma.external_layout_proforma_header">
+                <div class="page">
+                    <br/>
+                    <br/>
+                    <br/>
+<!--                    <table style="border:1px solid #000 !important; margin-top:0px !important; margin-bottom:0px !important; padding:0px !important; width:100%;" >-->
+<!--&lt;!&ndash;                        &lt;!&ndash; <t t-foreach="doc.order_lines_layouted()" t-as="page"> &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                        <thead>&ndash;&gt;-->
+<!--                            <tr style="border:1px solid #000 !important;">-->
+<!--                                <th style="border-bottom:1px solid;border-right:1px solid"><b>No</b></th>-->
+<!--                                <th style="border-bottom:1px solid;border-right:1px solid"><b> Description of Goods</b></th>-->
+<!--                                <th style="border-bottom:1px solid;border-right:1px solid"><b>HSN Code (GST)</b></th>-->
+<!--                                <th class="text-center" style="border-bottom:1px solid;border-right:1px solid"><b>Qty</b></th>-->
+<!--                                <th class="text-center" style="border-bottom:1px solid;border-right:1px solid"><b>UOM</b></th>-->
+<!--                                <th class="text-center" style="border-bottom:1px solid;border-right:1px solid"><b>Rate</b></th>-->
+<!--                                <th style="border-bottom:1px solid;border-right:1px solid"><b>Discount</b></th>-->
+<!--                                <th style="border-bottom:1px solid;border-right:1px solid"><b>Taxable values</b></th>-->
+<!--                                <th class="text-center" style="border-bottom:1px solid;border-right:1px solid"><b>CGST</b></th>-->
+<!--                                <th class="text-center" style="border-bottom:1px solid;border-right:1px solid"><b>SGST</b></th>-->
+<!--                                <th class="text-center" style="border-bottom:1px solid;border-right:1px solid"><b>IGST</b></th>-->
+<!--                                <th class="text-center" style="border-bottom:1px solid;border-right:1px solid"><b>UTGST</b></th>-->
+<!--                                <th class="text-center" style="border-bottom:1px solid;"><b>Total</b></th>-->
+<!--                            </tr>-->
+<!--&lt;!&ndash;                        </thead>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tbody class="sale-tbody">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <t t-set="i" t-value="1" />&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr t-foreach="o.order_line" t-as="l">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <t t-if="l.qty_bool==true">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <t t-set="line" t-value='l'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <td  class="text-center">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <span t-esc="i"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <t t-set="i" t-value="i+1"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <td><span t-field="line.product_id.name"/></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <td><t t-esc="l.HSN_SAC"/></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <td><t t-esc="l.product_uom_qty"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <td><t t-esc="l.product_uom.name"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <td class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <t t-esc="l.price_unit" t-esc-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <td t-if="display_discount">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <t t-esc="l.discount"/>%&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <td t-if="not display_discount"><t t-esc="0.00"/>%</td>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                    <td class="text-right"><t t-esc="l.price_subtotal" t-esc-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/></td>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                    <td class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <span t-field="l.sale_amount_CGST" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <span style="color:#696969">@<t t-esc="'%.2f' %(l.sale_CGST)"/>%</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <td class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <span t-field="l.sale_amount_SGST" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <span style="color:#696969">@<t t-esc="'%.2f' %(l.sale_SGST)"/>%</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <td class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <span t-field="l.sale_amount_IGST" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <span style="color:#696969">@<t t-esc="'%.2f' %(l.sale_IGST)"/>%</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <td class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <span t-field="l.sale_amount_UTGST" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <span style="color:#696969">@<t t-esc="'%.2f' %(l.sale_UTGST)"/>%</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                    <td class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <span t-field="l.price_subtotal" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </t>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            <tr style="border:1px solid #000 !important;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:1px solid #000 !important;padding-left:200px" colspan="8" class="text-center"><b>Total Quantity: </b><span t-esc="o.quantity_total"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:1px solid #000 !important;" colspan="4" class="text-right"><b>Total</b></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:1px solid #000 !important;" class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span t-field="o.total_price_subtotal" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                &lt;!&ndash;                        <td style="border:1px solid #000 !important;" colspan="8" class="text-center"><b>Total Amount (In Words)</b></td>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:1px solid #000 !important; " rowspan="6" colspan="8" class="text-center">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <b>Total Amount (In Words):  INR </b><span t-esc="o.amount_to_text(o.total_amt, o.currency_id)"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td colspan="4" class="text-right"><b>Add : CGST</b> </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span t-field="o.tot_cgst" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td colspan="4" class="text-right"><b>Add : SGST</b></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span t-field="o.tot_sgst" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td colspan="4" class="text-right"><b>Add : IGST</b></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span t-field="o.tot_igst" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td colspan="4" class="text-right"><b>Add : UTGST</b></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span t-field="o.amount_UTGST" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr style="border:0px solid #000 !important;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:0px solid #000 !important;" colspan="4" class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span t-if="not o.tot_cgst and not o.tot_sgst and not o.tot_igst"><b>Total Tax Amount: Other Taxes</b></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span t-if="o.tot_cgst or o.tot_sgst or o.tot_igst"><b>Total Tax Amount: GST</b></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:0px solid #000 !important;" class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span t-field="o.total_tax_amt" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr style="border:0px solid #000 !important;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <div name="total">&ndash;&gt;-->
+<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:1px solid #000 !important;" colspan="4" class="text-right"><b>Total Amount </b></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:1px solid #000 !important;" class="text-right">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <b><span t-field="o.total_amt" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/></b>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr style="border:1px solid #000 !important;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:0px solid #000 !important; " colspan="8" class="text-center"><b> Terms and conditions</b></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:0px solid #000 !important;" colspan="5" class="text-center"><b><t t-esc="o.company_id.name"/></b></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:0px solid #000 !important;" rowspan="4" colspan="8"><t t-esc="o.note"/></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td colspan="5">Signature:</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td colspan="5" class="text-center"><b>Authorised Signatory</b></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr style="border:0px solid #000 !important;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:0px solid #000 !important;" colspan="5">Name: <t t-esc="o.user_id.name"/></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr style="border:0px solid #000 !important;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="border:0px solid #000 !important;" colspan="5">Designation: </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tbody>&ndash;&gt;-->
+<!--                    </table>-->
+                    <p style="page-break-after: auto;"/>
+                </div>
+            </t>
+        </t>
+        <p style="page-break-after:always"></p>
+    </template>
+    <template id="report_proforma">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-if="o.state =='sale'">
+                    <t t-call="proforma.report_proforma_doc" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

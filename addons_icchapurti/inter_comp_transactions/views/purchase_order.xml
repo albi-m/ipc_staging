@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+
+        <record id="purchase_order_form_inherit" model="ir.ui.view">
+            <field name="name">Editable GST</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="l10n_in_purchase.view_purchase_order_form_inherit_l10n_in_purchase"/>
+            <field name="arch" type="xml">
+                <field name="l10n_in_gst_treatment" position="attributes">
+                    <attribute name="attrs">{'required': [('l10n_in_company_country_code', '=', 'IN')]}</attribute>
+                </field>
+                <field name="partner_ref" position="after">
+                    <field name="counterpart_so"/>
+                    <field name="counterpart_invoice"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

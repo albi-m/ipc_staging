@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+        <record id="import_po_wizard" model="ir.ui.view">
+            <field name="name">import_po_wizard_form</field>
+            <field name="model">import.purchase.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="po_import_file"/>
+                        <field name="product_import_mode" widget="radio"/>
+                    </group>
+
+                    <footer>
+                        <button name="import_pol" type="object" string="Import"/>
+                        <button string="Close" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="import_po_wizard_action" model="ir.actions.act_window">
+            <field name="name">Import PO Lines</field>
+            <field name="res_model">import.purchase.line</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="purchase_order_po_line_inherited" model="ir.ui.view">
+			<field name="name">Purchase Order</field>
+			<field name="model">purchase.order</field>
+			<field name="inherit_id" ref="purchase.purchase_order_form"/>
+			<field name="arch" type="xml">
+				<header>
+					<button name="%(import_po_wizard_action)d"
+					string="Import PO Lines" type="action"
+                    class="btn-primary"/>
+				</header>
+			</field>
+		</record>
+
+    </data>
+</odoo>

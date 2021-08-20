@@ -1,0 +1,53 @@
+<odoo>
+    <data>
+        <record id="update_customer_view12" model="ir.ui.view">
+            <field name="name">update customer view</field>
+            <field name="model">customer.export</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="file" filename="file_name"/>
+                        <field name="file_name" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button class="btn-primary" name="create_stock_jpdpt" string="JP Dept."
+                                type="object"/>
+                        <button class="btn-primary" name="create_stock_ggjwh" string="GGJ Sol. pvt. ltd."
+                                type="object"/>
+                        <button class="btn-primary" name="create_stock_tjngr" 
+                                string="Taj Nagar Warehouse"
+                                type="object"/>
+                        <button class="btn-primary" name="create_stock_sbr01_bhagalpur" 
+                                string="SF Bhagalpur"
+                                type="object"/>
+                        <button class="btn-primary" name="create_stock_home_guru" 
+                                string="Home Guru"
+                                type="object"/>
+                        <button class="btn-primary" name="create_stock_sharma_general" 
+                                string="Sharma General"
+                                type="object"/>
+                        <button class="btn-primary" name="create_stock_parth_super_store" 
+                                string="Parth Super Store"
+                                type="object"/>
+                        <button class="btn-primary" name="create_stock_rozana_mart" 
+                                string="Rozana Mart"
+                                type="object"/>
+                        <button class="btn-default" special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_update_customer_view222" model="ir.actions.act_window">
+            <field name="name">Update Stock Data</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">customer.export</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="update_customer_view12"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="challan_customer_receipt_menu2" name="Import Data" parent="stock.menu_stock_root"
+                  action="action_wizard_update_customer_view222" sequence="20"/>
+    </data>
+</odoo>

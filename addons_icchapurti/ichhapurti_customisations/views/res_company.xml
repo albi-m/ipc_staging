@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+        <record id="res_company_inherit" model="ir.ui.view">
+            <field name="name">Default Warehouse</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+<!--                <field name="parent_id" position="after">-->
+<!--                    <field name="default_wh"/>-->
+<!--                </field>-->
+<!--                <xpath expr="//div[hasclass('oe_title')]" position="after">-->
+<!--                    <div attrs="{'invisible': [('name', '=', False)]}">-->
+<!--                        <field name="is_warehouse"/>-->
+<!--                        <label for="is_warehouse"/>-->
+<!--                    </div>-->
+<!--                </xpath>-->
+            </field>
+        </record>
+    </data>
+</odoo>

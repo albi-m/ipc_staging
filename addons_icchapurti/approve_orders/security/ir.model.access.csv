@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_stock_scrap,Stock Scrap Access,stock.model_stock_scrap,approve_orders.purchase_approve,1,1,1,1
+access_stock_picking,Stock Picking Access,stock.model_stock_picking,approve_orders.purchase_approve,1,1,1,1

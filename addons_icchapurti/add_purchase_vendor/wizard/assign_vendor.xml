@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+
+        <record id="assign_vendor_wizard" model="ir.ui.view">
+            <field name="name">Assign Vendor</field>
+            <field name="model">assign.vendor</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        Assign Purchase Vendor
+                        <group>
+                            <field name="select_all"/>
+                            <field name="po_ids" widget="many2many_tags"
+                                   attrs="{'invisible': [('select_all', '=', True)]}"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="assign_vendor" type="object" string="Assign Vendor"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="assign_vendor_wizard_action" model="ir.actions.act_window">
+            <field name="name">Assign Vendor</field>
+            <field name="res_model">assign.vendor</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="assign_vendor_menu" name="Assign Purchase Vendor"
+                  action="assign_vendor_wizard_action" parent="purchase.menu_purchase_config"
+                  sequence="80" />
+
+    </data>
+</odoo>

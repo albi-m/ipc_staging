@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_grn_doc">
+        <t t-call="web.html_container">
+            <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+            <div class="header">
+                <div class="row">
+                    <div class="col-4">
+                        <span><img src="/hsn_invoice_report/static/description/images/logo_Red.png" style="max-height:60px;"/></span>
+                    </div>
+                    <div class="col-5">
+
+                    </div>
+                    <div class="col-4" name="right_box">
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:300px;height:50px;" alt="Barcode"/>
+                        <b><span style="padding-left: 60px;" t-field="o.name"/></b>
+                    </div>
+                </div>
+                <div>
+                    <center><strong><span t-esc="o.company_id.name"></span></strong></center>
+                </div>
+                <div style="border-bottom: 1px solid black; font-size: 13px">
+                    <center><strong>Corporate Address:</strong><span t-esc="o.company_address"></span></center>
+                    <center><strong>Warehouse Address</strong><span t-esc="o.warehouse_address" ></span></center>
+                    <strong style="font-size: 16px"><center>GST :<span t-esc="o.company_id.vat"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;CIN :<span t-esc="o.company_id.company_registry"/></center></strong>
+                </div>
+                <div>
+                    <p style="font-size:13px;"><strong><center>GOODS  RECEIPT  NOTE</center></strong></p>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <table width="100%">
+                <tbody>
+                    <tr style="border-right: 0px;">
+                        <td align="left" width="50%" style="font-size:13px;" >
+                            <b>Vendor Name : </b><span t-field="o.partner_id.name"/><br/>
+                            <strong>Vendor Address:</strong><span t-esc="o.vendor_address"></span><br/>
+                            <!--                            <p t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>-->
+                            <b>GSTIN :<span t-field="o.partner_id.vat"/></b>
+                            <br/>
+                            <b>Phone No. : </b><span t-field="o.partner_id.phone"/><br/>
+<!--                            <b>Operation Type : </b><span t-field="o.picking_type_id"/><br/>-->
+                            <b>Destination Location : </b><span t-field="o.location_dest_id"/><br/>
+                        </td>
+                        <td align="left" style="border: 0px;padding-left: 50px;font-size:13px;" width="50%">
+                            <b>GRN No.:  </b><span t-field="o.name"/><br/>
+                            <b>Effective Date :  </b><span t-field="o.date_done"/><br/>
+                            <b>Source Document : </b><span t-field="o.origin"/><br/>
+                            <b>Vendor Invoice Number : </b><span t-field="o.vendor_invoice"/><br/>
+                            <!--                            <b>Currency : </b><span t-field="o.currency_id.name"/><br/>-->
+                            <!--                            <b>Status : </b><span t-field="o.invoice_status"/><br/>-->
+                            <!--                            <b>Payment Term </b><span t-field="o.payment_term_id.name"/><br/>-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+            <br/>
+            <br/>
+            <table style="border:1px solid #000;width:100%" t-if="o.move_line_ids and o.move_ids_without_package">
+                <t t-set="has_barcode" t-value="any(move_line.product_id and move_line.product_id.sudo().barcode or move_line.package_id for move_line in o.move_line_ids)"/>
+                <t t-set="has_serial_number" t-value="any(move_line.lot_id or move_line.lot_name for move_line in o.move_line_ids)" groups="stock.group_production_lot"/>
+                <thead>
+                    <tr style="border-bottom:1px;">
+                        <th align="center" name="th_product" style="text-align:left;padding-left:40px;font-size: 13px;">
+                            <strong>Product</strong>
+                        </th>
+                        <th align="center" name="th_product" style="text-align:center;font-size: 13px;">
+                            <strong>Product Code</strong>
+                        </th>
+                        <th  align="center" style="text-align:center;font-size: 13px;" name="th_to" t-if="o.picking_type_id.code != 'outgoing'" groups="stock.group_stock_multi_locations">
+                            <strong>To</strong>
+                        </th>
+                        <th align="center" style="text-align:center;font-size: 13px;">
+                            <strong>Quantity</strong>
+                        </th>
+                        <th align="center" style="text-align:center;font-size: 13px;">
+                            <strong>Unit Price</strong>
+                        </th>
+                        <th align="center" style="text-align:center;font-size: 13px;">
+                            <strong>Total</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="o.move_ids_without_package" t-as="move">
+                        <t t-foreach="move.move_line_ids.sorted(key=lambda ml: ml.location_id.id)" t-as="ml">
+                            <tr>
+                                <td style="font-size: 13px;">
+                                    <span t-field="ml.product_id.display_name"/><br/>
+                                    <span t-field="ml.product_id.description_picking"/>
+                                </td>
+                                <td align="center" style="text-align:center;font-size: 13px;">
+                                    <span t-field="ml.product_id.default_code"/><br/>
+                                </td>
+
+                                <td align="center" style="text-align:center;font-size: 13px;" t-if="o.picking_type_id.code != 'outgoing'" groups="stock.group_stock_multi_locations">
+                                    <div>
+                                        <span t-field="ml.location_dest_id"/>
+                                        <t t-if="ml.result_package_id">
+                                            <span t-field="ml.result_package_id"/>
+                                        </t>
+                                    </div>
+                                </td>
+                                <td align="center" style="text-align:center;font-size: 13px;">
+                                    <span t-if="o.state != 'done'" t-field="ml.product_uom_qty"/>
+                                    <span t-if="o.state == 'done'" t-field="ml.qty_done"/>
+                                    <span t-field="ml.product_uom_id" groups="uom.group_uom"/>
+
+                                </td>
+                                <td align="center" style="text-align:center;font-size: 13px;">
+                                    <span t-field="move.price_unit"/><br/>
+                                </td>
+
+                                <td align="center" style="text-align:center;font-size: 13px;">
+                                    <span t-field="o.company_id.currency_id.symbol"/><span t-field="move.total_price"></span>
+                                </td>
+                            </tr>
+                        </t>
+                    </t>
+                </tbody>
+            </table>
+            <div>
+                <table width='100%' style="border-bottom:1px solid #000;width:100%;border-left:1px solid #000;width:100%;border-right:1px solid #000;width:100%;">
+                    <tr style="border-top:0px">
+                        <td width="20%"></td>
+                        <td width="20%"></td>
+                        <td width="20%" align="right" style="text-align:center;font-size: 13px;"><strong>Total</strong></td>
+                        <td width="20%" align="right" style="text-align:center;padding-left:10px;font-size: 13px;"><span t-field="o.total_qty"></span></td>
+                        <td width="20%" align="right" style="text-align:right;padding-right:20px;font-size: 13px;"><span t-field="o.company_id.currency_id.symbol"/><span t-field="o.total_amount"></span></td>
+                    </tr>
+                </table>
+            </div>
+            <br/><br/>
+            <br/><br/><br/><br/>
+            <br/><br/><br/><br/>
+            <br/><br/><br/><br/>
+            <table  class="table" style="border: 0px;">
+                            <th style="border: 0px;font-size: 13px;"><center>Created By</center></th>
+                            <th style="border: 0px;"><center></center></th>
+                            <tr style="border: 0px;">
+                                <td style="border: 0px;font-size: 13px;" align="right" >
+                                    <center><span t-field="o.create_uid.name"/></center>
+                                </td>
+                            </tr>
+                    </table>
+        </t>
+    </template>
+    <template id="report_grn">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="grn_report.report_grn_doc" t-lang="o.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>

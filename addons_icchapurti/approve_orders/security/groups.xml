@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+
+        <record id="purchase_confirm" model="res.groups">
+            <field name="name">User - Confirm Orders</field>
+            <field name="implied_ids" eval="[(4, ref('purchase.group_purchase_user'))]"/>
+            <field name="category_id" ref="base.module_category_inventory_purchase"/>
+        </record>
+
+        <record id="purchase_approve" model="res.groups">
+            <field name="name">User - Approve Orders</field>
+            <field name="implied_ids" eval="[(4, ref('purchase_confirm'))]"/>
+            <field name="category_id" ref="base.module_category_inventory_purchase"/>
+        </record>
+
+        <record id="purchase.group_purchase_manager" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('purchase.group_purchase_user')), (4, ref('purchase_approve'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+    </data>
+</odoo>

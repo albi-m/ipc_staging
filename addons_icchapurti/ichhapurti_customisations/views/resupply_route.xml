@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+
+        <record id="stock_warehouse_form_inherit_resupply" model="ir.ui.view">
+            <field name="name">apply_resupply</field>
+            <field name="model">resupply.route.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                    This will Automatically assign Resupply Warehouse for each warehouse (The default warehouse
+                    of the parent company) and Apply the corresponding route to each product.
+                    </sheet>
+                    <footer>
+                        <button name="apply_route" type="object" string="Apply route"/>
+                        <button name="apply_buy_mto" type="object" string="Apply Buy and MTO"/>
+                        <button string="Close" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="resupply_route_action" model="ir.actions.act_window">
+            <field name="name">Apply Resupply route</field>
+            <field name="res_model">resupply.route.wizard</field>
+            <field name="view_mode">form</field>
+             <field name="view_id" ref="stock_warehouse_form_inherit_resupply"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="resupply_route" name="Apply Resupply route"
+                  action="resupply_route_action" parent="stock.menu_stock_warehouse_mgmt"
+                  sequence="500" />
+
+    </data>
+</odoo>

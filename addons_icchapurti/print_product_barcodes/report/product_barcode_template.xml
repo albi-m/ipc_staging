@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Picking Template -->
+    <template id="picking_barcode_template">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <t t-set="uom_categ_unit" t-value="env.ref('uom.product_uom_categ_unit')"/>
+                    <t t-foreach="docs" t-as="picking">
+                        <t t-foreach="picking.move_lines" t-as="move">
+                            <t t-foreach="move.move_line_ids" t-as="move_line">
+                                <t t-if="move_line.product_uom_id.category_id.name == 'Pieces' or move_line.product_uom_id.category_id.name == 'Unit'">
+                                    <t t-set="box_count" t-value="move_line._get_box_count()"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="box_count" t-value="1"/>
+                                </t>
+                                <t t-foreach="range(box_count)" t-as="item">
+                                    <t t-translation="off">
+                                        <div style="width: 320px; height: 209px;">
+                                            <table style="border: 2px solid black; width: 320px; height: 209px; table-layout: fixed;" t-if="picking.move_lines">
+                                                <tr>
+                                                    <th class="table-active text-left" style="height:4rem;">
+                                                        <div style="height: 3em; overflow: hidden;">
+                                                            <t t-if="len(move.product_id.name)"><strong t-esc="move.product_id.name"/><br/></t>
+                                                        </div>
+                                                        <b>Pack Size : </b><b t-esc="move.product_id.case_size"/>
+                                                        <b><span>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;MRP : </span></b><b t-esc="move.product_id.mrp"/><br/>
+                                                        <b>Item Code : </b><b style="font-size: 19px;" t-esc="move.product_id.default_code"/>
+                                                    </th>
+                                                </tr>
+                                                <t t-if="move_line.product_id.tracking != 'none'">
+                                                    <tr>
+                                                        <td class="text-center align-middle">
+                                                            <t t-if="move_line.lot_name or move_line.lot_id">
+                                                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', move_line.lot_name, 600, 150)" style="width:99%;height:4rem" alt="Barcode"/>
+                                                                <b><strong t-esc="move_line.lot_name or move_line.lot_id.name"/></b>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <span class="text-muted">No barcode available</span>
+                                                            </t>
+                                                        </td>
+                                                    </tr>
+                                                    <p style="page-break-after:always"/>
+                                                </t>
+                                                <t t-if="move_line.product_id.tracking == 'none'">
+                                                    <tr>
+                                                        <td class="text-center align-middle" style="height: 6rem;">
+                                                            <t t-if="move_line.product_id.barcode">
+                                                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', move_line.product_id.barcode, 600, 150)" style="width:99%;height:4rem" alt="Barcode"/>
+                                                                    <b><strong t-esc="move_line.product_id.barcode"/></b>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <span class="text-muted">No barcode available</span>
+                                                            </t>
+                                                        </td>
+                                                    </tr>
+                                                    <p style="page-break-after:always"/>
+                                                </t>
+                                            </table>
+                                        </div>
+                                    </t>
+                                </t>
+                            </t>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        <p style="page-break-after:always"/>
+    </template>
+
+<!--    Custom Product Barcode Template-->
+    <template id="report_simple_barcode_custom">
+        <div style="width: 320px; height: 209px;">
+            <table style="border: 2px solid black; width: 320px; height: 209px; table-layout: fixed;">
+                <tr>
+                    <th class="table-active text-left" style="height: 4rem;">
+                        <div style="height: 3em; overflow: hidden;">
+                            <t t-if="len(product.name)"><strong t-esc="product.name"/><br/></t>
+                        </div>
+                        <b>Pack Size : </b><b t-esc="product.case_size"/>
+                        <b><span>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;MRP : </span></b><b t-esc="product.mrp"/><br/>
+                        <b>Item Code : </b><b style="font-size: 19px;" t-esc="product.default_code"/>
+                    </th>
+                </tr>
+                <tr>
+                    <td class="text-center align-middle" style="height: 6rem;">
+                        <t t-if="product.barcode">
+                            <img alt="Barcode" t-if="len(product.barcode) == 13" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(product.barcode or ''), 600, 150)" style="width:99%;height:4rem;"/>
+                            <img alt="Barcode" t-elif="len(product.barcode) == 8" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', quote_plus(product.barcode or ''), 600, 150)" style="width:99%;height:4rem;"/>
+                            <img alt="Barcode" t-else="" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(product.barcode or ''), 600, 150)" style="width:99%;height:4rem"/>
+                            <b><strong t-field="product.barcode"/></b>
+                        </t>
+                        <t t-else=""><span class="text-muted">No barcode available</span></t>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </template>
+
+
+    <!--Products Template-->
+    <template id="pdt_barcode_template">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="template">
+                    <t t-foreach="template.product_variant_ids" t-as="product">
+                        <t t-call="print_product_barcodes.report_simple_barcode_custom">
+                            <t t-set="product" t-value="product"/>
+                        </t>
+                        <p style="page-break-after:always"/>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!--Product Variants-->
+    <template id="pdt_barcode_variant">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="template">
+                    <t t-foreach="docs" t-as="product">
+                        <t t-call="print_product_barcodes.report_simple_barcode_custom">
+                            <t t-set="product" t-value="product"/>
+                        </t>
+                        <p style="page-break-after:always"/>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

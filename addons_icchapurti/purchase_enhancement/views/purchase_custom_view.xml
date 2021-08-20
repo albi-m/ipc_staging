@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="purchase_order_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.view.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_qty']" position="after">
+                    <field name="pack_size"/>
+                    <field name="replaced"/>
+                    <field name="discount"/>
+            </xpath>
+            <xpath expr="//field[@name='product_id']" position="before">
+                    <field name="product_code"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                    <field name="replaced_bool" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="vendor_id" />
+            </xpath>
+            <xpath expr="//field[@name='amount_untaxed']" position="before">
+                    <field name="total_qty" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

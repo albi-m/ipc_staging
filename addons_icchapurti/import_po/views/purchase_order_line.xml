@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+
+        <record id="purchase_line_inherit" model="ir.ui.view">
+            <field name="name">Purchase Line Inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase_enhancement.purchase_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name='replaced' position="before">
+                    <field name="case_size"/>
+                    <field name="barcode"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

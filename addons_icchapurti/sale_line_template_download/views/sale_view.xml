@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inherit_ichhapurti" model="ir.ui.view">
+        <field name="name">sale.order.form.ichhapurti</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_cancel']" position="after">
+                <button name="get_sale_order_line_template" string="Download Template" type="object" class="oe_link oe_right"/>
+            </xpath>
+            <xpath expr="//field[@name='date_order']" position="after">
+                    <field name="sale_order_line_template" readonly="0"/>
+                    <field name="filename"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

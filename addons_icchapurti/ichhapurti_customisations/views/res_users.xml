@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+
+        <record id="warehouse_role" model="ir.ui.view">
+            <field name="name">warehouse role</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='messaging']" position="after">
+                    <group name="warehouse_role">
+                        <field name="warehouse_role" options="{'style-inline': true}"/>
+                    </group>
+                </xpath>
+                <field name="property_warehouse_id" position="after">
+                    <field name="allowed_warehouse_ids" widget="many2many_tags"/>
+                    <field name="allowed_location_ids" widget="many2many_tags"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,11 @@
+.mrp-tag {
+    position: absolute;
+    top: 2px;
+    right: 60px;
+    vertical-align: top;
+    color: white;
+    line-height: 13px;
+    background: #de9790;
+    padding: 2px 5px;
+    border-radius: 2px;
+}

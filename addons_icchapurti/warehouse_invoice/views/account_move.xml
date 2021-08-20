@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+
+        <record id="account_move_name" model="ir.ui.view">
+            <field name="name">account.move.name</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="invoice_date" position="after">
+                    <field name="custom_invoice_ref"/>
+<!--                    <field name="compute_seq" invisible="1"/>-->
+                </field>
+            </field>
+        </record>
+
+        <record id="warehouse_form_inherit" model="ir.ui.view">
+            <field name="name">Warehouse Sequence</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.view_warehouse"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="invoice_sequence"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

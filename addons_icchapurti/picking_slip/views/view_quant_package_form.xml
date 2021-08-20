@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_quant_package_form_inherit" model="ir.ui.view">
+        <field name="name">view.quant.package.form.inherit</field>
+        <field name="model">stock.quant.package</field>
+        <field name="inherit_id" ref="stock.view_quant_package_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_id']" position="after">
+                <field name="total_qty" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="stock_view_form_inherit_custom2" model="ir.ui.view">
+        <field name="name">stock.view.form.inherit.custom2</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="product_sale_price" invisible="1"></field>
+            </xpath>
+        </field>
+    </record>
+</odoo>

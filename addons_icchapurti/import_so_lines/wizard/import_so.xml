@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+        <record id="import_so_wizard" model="ir.ui.view">
+            <field name="name">import_so_wizard_form</field>
+            <field name="model">import.sales.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="so_import_file"/>
+                        <field name="product_import_mode" widget="radio"/>
+                    </group>
+
+                    <footer>
+                        <button name="import_sol" type="object" string="Import"/>
+                        <button string="Close" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="import_so_wizard_action" model="ir.actions.act_window">
+            <field name="name">Import SO Lines</field>
+            <field name="res_model">import.sales.line</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="sale_order_so_line_inherited" model="ir.ui.view">
+			<field name="name">Sale Order</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="arch" type="xml">
+				<header>
+					<button name="%(import_so_wizard_action)d"
+					string="Import SO Lines" type="action"
+                    class="btn-primary"/>
+				</header>
+			</field>
+		</record>
+
+    </data>
+</odoo>

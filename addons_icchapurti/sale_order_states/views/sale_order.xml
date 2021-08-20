@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+
+        <record id="sale_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.status</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/field[@name='state']" position="before">
+                    <span> </span>
+                    <field name="custom_state" string="State" widget="badge" readonly="True"/>
+                </xpath>
+                <field name="partner_id" position="after">
+                    <field name="check_status" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="sale_order_tree_inherit" model="ir.ui.view">
+            <field name="name">Sale.order.status</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="custom_state" string="Order Status" decoration-success="custom_state == 'invoice_posted' or custom_state == 'done'" decoration-info="custom_state == 'draft'" widget="badge" optional="show"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

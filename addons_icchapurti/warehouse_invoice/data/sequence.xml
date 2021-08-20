@@ -1,0 +1,12 @@
+<odoo>
+    <data noupdate="0">
+
+        <record id="seq_warehouse_invoice" model="ir.sequence">
+            <field name="name">Warehouse wise invoice</field>
+            <field name="code">warehouse.invoice_seq</field>
+            <field name="prefix">WARE/HOUSE</field>
+            <field name="padding">4</field>
+        </record>
+
+    </data>
+</odoo>

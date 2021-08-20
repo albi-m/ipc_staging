@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Packing Template -->
+    <template id="package_barcode_template">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <t t-foreach="docs" t-as="package">
+                        <t t-set="picking" t-value="package._get_picking()"/>
+                        <t t-translation="off">
+                            <div style="width: 320px; height: 209px;">
+                                <table style="border: 2px solid black; width: 320px; height: 209px; table-layout: fixed;">
+                                    <tr>
+                                        <th class="table-active text-left" style="height:4rem;">
+                                            <div style="height: 3em; overflow: hidden;">
+                                                <b>Customer : </b><t t-if="picking.partner_id"><strong t-esc="picking.partner_id.name"/><br/></t>
+                                            </div>
+                                            <b>Order No : </b><b t-esc="picking.sale_id.name"/>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center align-middle" style="height: 6rem;">
+                                            <t t-if="package.name">
+                                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', package.name, 600, 150)" style="width:99%;height:4rem" alt="Barcode"/>
+                                                <b><strong t-esc="package.name"/></b>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        <p style="page-break-after:always"/>
+    </template>
+</odoo>

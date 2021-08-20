@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_purchaseorder_document_ichhapurti">
+        <t t-call="web.html_container">
+            <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+            <t t-call="hsn_invoice_report.external_layout_po_header">
+                <div class="page">
+                    <br/>
+                    <br/>
+                    <p style="font-size:80px; margin-top:-40px;"><strong><center>PURCHASE ORDER</center></strong></p>
+                    <table style="table-layout:fixed;" width="100%">
+                        <tbody>
+                            <tr >
+                                <td style="padding-left:30px;">
+                                    <b>TO:</b><br/>
+                                    <span t-field="o.partner_id.name"/><br/>
+                                    <!-- <span t-field="o.company_id.name"/><br/> -->
+                                    <span t-field="o.partner_id.street"/>,
+                                    <span t-field="o.partner_id.street2"/><br/>
+                                    <span t-field="o.partner_id.city"/>, <span t-field="o.partner_id.state_id.name"/>, <span t-field="o.partner_id.zip"/><br/>
+                                    <span t-field="o.partner_id.phone"/>
+
+                                    <!--                            <p t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>-->
+                                    <!-- <p t-if="o.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></p>
+                                    <br/> -->
+                                    <!-- <b>Phone No. : </b><span t-field="o.partner_id.phone"/><br/>
+                                    <b>Reference No. : </b><span t-field="o.partner_ref"/><br/> -->
+                                    <!--                            <b>GSTIN. : </b><span t-field="o.company_id.vat"/><br/>-->
+                                </td>
+                                <td style="border: 0px; padding-left:80px;">
+                                    <b>DELIVER TO:</b><br/>
+                                    <span t-field="o.picking_type_id.warehouse_id.name"/><br/>
+                                    <span t-field="o.picking_type_id.company_id.name"/><br/>
+                                    <span t-field="o.picking_type_id.warehouse_id.partner_id.street"/><br/><span t-field="o.picking_type_id.warehouse_id.partner_id.street2"/><br/>
+                                    <span t-field="o.picking_type_id.warehouse_id.partner_id.city"/>, <span t-field="o.picking_type_id.warehouse_id.partner_id.state_id.name"/>, <span t-field="o.picking_type_id.warehouse_id.partner_id.zip"/><br/>
+                                    <span t-field="o.picking_type_id.warehouse_id.partner_id.phone"/>
+                                </td>
+                                <td style="border: 0px; padding-left:60px;" >
+                                    <b>P.O. NUMBER : </b><b style="font-size:1.25em;"><span t-field="o.name" /></b><br/>
+
+                                    <!--                            <b>Date :  </b><span t-field="o.date_order"/><br/>-->
+                                    <b>P.O. Date :  </b><span t-field="o.date_order" t-options='{"format": "MM/dd/yyyy"}'/><br/>
+                                    <!-- <b>Confirmation Date :  </b><span t-field="o.date_approve" t-options='{"format": "MM/dd/yyyy"}'/><br/> -->
+                                    <b>Expiration Date : </b><span t-field="o.date_planned" t-options='{"format": "MM/dd/yyyy"}'/><br/>
+                                    <!-- <b>Expected Receipt Date : </b><span t-field="o.date_planned" t-options='{"format": "MM/dd/yyyy"}'/><br/> -->
+                                    <!-- <b>Currency : </b><span t-field="o.currency_id.name"/><br/>
+                                    <b>Status : </b><span t-field="o.invoice_status"/><br/> -->
+                                    <b>Payment Term </b><span t-field="o.payment_term_id.name"/><br/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table><br/>
+
+                    <table  class="table table-bordered" style="table-layout:auto;font-size: 10px">
+                        <thead>
+                            <tr>
+                                <td rowspan="2"><b>S.No</b></td>
+                                <!--                        <td class="text-center" colspan="4" rowspan="2"><b>Item No</b></td>-->
+                                <td class="text-center" colspan="4" rowspan="2"><b>Item No</b></td>
+                                <td class="text-center" colspan="4" rowspan="2"><b>HSN/SAC Code</b></td>
+                                <td class="text-center" colspan="10" rowspan="2"><b>Description</b></td>
+                                <td class="text-center" colspan="4" rowspan="2"><b>Ean13 barcode</b></td>
+                                <td class="text-center" colspan="4" rowspan="2"><b>Pack Size</b></td>
+                                <td class="text-center" rowspan="2" colspan="4"><b>QTY</b></td>
+                                <td class="text-center" rowspan="2" colspan="4"><b>UNIT</b></td>
+                                <!--                        <td class="text-center" rowspan="2" colspan="4"><b>UNIT PRICE</b></td>-->
+                                <td class="text-center" rowspan="2" colspan="4"><b>UNIT PRICE</b></td>
+                                <td class="text-center" rowspan="2" colspan="4"><b>MRP</b></td>
+                                <td class="text-center" colspan="4"><b>DISC%</b></td>
+                                <td class="text-center" colspan="4" rowspan="2"><b>TAX%</b></td>
+                                <!-- <td class="text-center" colspan="4"><b>CGST</b></td>
+                                <td class="text-center" colspan="4"><b>SGST</b></td>
+                                <td class="text-center" colspan="4"><b>IGST</b></td> -->
+                                <td class="text-center" rowspan="2" colspan="4"><b>Total Value</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="center"><b>DISC%</b></td>
+                                <td colspan="2" align="center"><b>DISC Amt</b></td>
+                                <!-- <td colspan="2" align="center"><b>Rate</b></td>
+                                <td colspan="4" align="center"><b>AMT.</b></td>
+                                <td colspan="2" align="center"><b>Rate</b></td>
+                                <td colspan="4" align="center"><b>AMT.</b></td>
+                                <td colspan="2" align="center"><b>Rate</b></td>
+                                <td colspan="4" align="center"><b>AMT.</b></td> -->
+                            </tr>
+                        </thead>
+                        <t t-set="i" t-value="1" />
+                        <t t-set="val" t-value="0" />
+                        <tbody class="gst_tbody">
+                            <t t-foreach="o.get_hsn_code(hsn)" t-as="hsn_data">
+                                <tr>
+                                    <tr t-foreach="o.order_line" t-as="line">
+                                        <t t-if="hsn_data == line.product_id.l10n_in_hsn_code">
+                                            <td  class="text-center">
+                                                <span t-esc="i"/>
+                                                <t t-set="i" t-value="i+1"/>
+                                            </td>
+                                            <td colspan="4" class="text-left" >
+                                                <span t-field="line.product_id.default_code"/>
+                                            </td>
+                                            <td colspan="4" class="text-left" >
+                                                <span t-esc="hsn_data"/>
+                                            </td>
+                                            <td colspan="10" class="text-left" >
+                                                <span t-esc="line.name"/>
+                                            </td>
+                                            <td colspan="4" class="text-left" >
+                                                <span t-esc="line.product_id.barcode"/>
+                                            </td>
+                                            <td colspan="4" class="text-left" >
+                                                <span t-esc="line.pack_size"/>
+                                            </td>
+                                            <td colspan="4" class="text-left" >
+                                                <span t-esc="line.product_qty"/>
+                                            </td>
+                                            <td colspan="4" class="text-center" >
+                                                <span t-field="line.product_uom.name"/>
+                                            </td>
+                                            <td colspan="4" class="text-center" >
+                                                <span t-field="line.price_unit"/>
+                                            </td>
+                                            <td colspan="4" class="text-center" >
+                                                <span t-esc="int(line.product_id.mrp)"/>
+                                            </td>
+                                            <!--                                    <td colspan="4" class="text-right" >-->
+                                            <!--                                        <span t-field="line.product_id.mrp"/>-->
+                                            <!--                                    </td>-->
+                                            <td colspan="2" class="text-center">
+                                                <span t-esc="round(o.get_disc(o.id,line)[0],2)"/><span>%</span>
+                                            </td>
+                                            <td colspan="2" class="text-center">
+                                                <span t-esc="round(o.get_disc(o.id,line)[1],2)"/>
+                                            </td>
+                                            <td colspan="4" class="text-center">
+                                                <span t-esc="', '.join(map(lambda x: x.name, line.taxes_id))"/>
+                                            </td>
+                                            <!-- <td colspan="2" class="text-center">
+                                                <span t-esc="round(o.get_gst(o.id,line.product_id.id)[0],2)"/><span>%</span>
+                                            </td> -->
+                                            <!-- <td colspan="2" class="text-right">
+                                                <span t-esc="round(o.get_gst(o.id,line.product_id.id)[1],2)"/>
+                                            </td> -->
+                                            <!-- <td colspan="2" class="text-center">
+                                                <span t-esc="round(o.get_gst(o.id,line.product_id.id)[0],2)"/><span>%</span>
+                                            </td> -->
+                                            <!-- <td colspan="2" class="text-right">
+                                                <span t-esc="round(o.get_gst(o.id,line.product_id.id)[1],2)"/>
+                                            </td> -->
+                                            <!-- <td colspan="2" class="text-center">
+                                                <span t-esc="round(o.get_igst(o.id,line.product_id.id)[0],2)"/><span>%</span>
+                                            </td> -->
+                                            <!-- <td colspan="2" class="text-center">
+                                                 <span t-esc="round(o.get_igst(o.id,line.product_id.id)[1],2)"/>
+                                            </td> -->
+                                            <td colspan="4" class="text-right">
+                                                <span t-esc="o.get_final_price(line)"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <div>
+                        <table width='100%' style="border-bottom:1px solid #000;width:100%;border-left:1px solid #000;width:100%;border-right:1px solid #000;width:100%;">
+                            <tr style="border-top:1px solid #000">
+                                <td width="20%"></td>
+                                <td width="20%" align="right" style="text-align:center"><strong>Total Qty</strong></td>
+                                <td width="20%"><span t-field="o.total_qty"></span></td>
+                                <td width="20%" align="right" style="text-align:center;padding-left:10px"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div class="clearfix">
+                        <div id="total" class="row" name="total">
+                            <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                <table class="table table-sm">
+                                    <tr class="border-black o_subtotal" style="">
+                                        <td><strong>Subtotal</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_untaxed"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black o_taxes" style="">
+                                        <td><strong>Taxes</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_tax"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="border-black o_total">
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_total"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div><br/><br/>
+                    <!--            <table  class="table table-bordered" style="table-layout:auto">-->
+                    <!--                <thead>-->
+                    <!--                    <tr>-->
+                    <!--                        <td class="text-center" colspan="4" rowspan="2"><b>HSN/SAC Code</b></td>-->
+                    <!--                        <td class="text-center" colspan="4"><b>CGST</b></td>-->
+                    <!--                        <td class="text-center" colspan="4"><b>SGST</b></td>-->
+                    <!--                        <td class="text-center" colspan="4"><b>IGST</b></td>-->
+                    <!--                    </tr>-->
+                    <!--                    <tr>-->
+                    <!--                        <td colspan="2" align="center"><b>Rate</b></td>-->
+                    <!--                        <td colspan="2" align="center"><b>Amt</b></td>-->
+                    <!--                        <td colspan="2" align="center"><b>Rate</b></td>-->
+                    <!--                        <td colspan="2" align="center"><b>Amt</b></td>-->
+                    <!--                        <td colspan="2" align="center"><b>Rate</b></td>-->
+                    <!--                        <td colspan="2" align="center"><b>Amt</b></td>-->
+                    <!--                    </tr>-->
+                    <!--                </thead>-->
+                    <!--                <t t-set="i" t-value="1" /> -->
+                    <!--                <t t-set="val" t-value="0" /> -->
+                    <!--                <tbody class="gst_tbody">-->
+                    <!--                    <t t-foreach="o.get_hsn_code(hsn)" t-as="hsn_data">-->
+                    <!--                        <tr>-->
+                    <!--                            <tr t-foreach="o.order_line" t-as="line">-->
+                    <!--                                <t t-if="hsn_data == line.product_id.l10n_in_hsn_code">-->
+                    <!--                                    <td colspan="4" class="text-left" >-->
+                    <!--                                        <span t-esc="hsn_data"/>-->
+                    <!--                                    </td>-->
+                    <!--                                    <td colspan="2" class="text-center">-->
+                    <!--                                        <span t-esc="round(o.get_gst(o.id,line.product_id.id)[0],2)"/><span>%</span>-->
+                    <!--                                    </td>-->
+                    <!--                                    <td colspan="2" class="text-right">-->
+                    <!--                                        <span t-esc="round(o.get_gst(o.id,line.product_id.id)[1],2)"/>-->
+                    <!--                                    </td>-->
+                    <!--                                    <td colspan="2" class="text-center">-->
+                    <!--                                        <span t-esc="round(o.get_gst(o.id,line.product_id.id)[0],2)"/><span>%</span>-->
+                    <!--                                    </td>-->
+                    <!--                                    <td colspan="2" class="text-right">-->
+                    <!--                                        <span t-esc="round(o.get_gst(o.id,line.product_id.id)[1],2)"/>-->
+                    <!--                                    </td>-->
+                    <!--                                    <td colspan="2" class="text-center">-->
+                    <!--                                        <span t-esc="round(o.get_igst(o.id,line.product_id.id)[0],2)"/><span>%</span>-->
+                    <!--                                    </td>-->
+                    <!--                                    <td colspan="2" class="text-center">-->
+                    <!--                                         <span t-esc="round(o.get_igst(o.id,line.product_id.id)[1],2)"/>-->
+                    <!--                                    </td>-->
+                    <!--                                </t>-->
+                    <!--                            </tr>-->
+                    <!--                        </tr>-->
+                    <!--                    </t>-->
+                    <!--                </tbody>-->
+                    <!--            </table>-->
+                    <!-- <div class="clearfix">
+                        <div id="total" class="row" name="total">
+                            <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                <table class="table table-sm">
+                                    <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                        <tr style="">
+                                            <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) == 1 and o.amount_untaxed == amount_by_group[2]">
+                                                <td><span t-esc="amount_by_group[0]"/></td>
+                                                <td class="text-right o_price_total">
+                                                    <span t-esc="amount_by_group[3]" />
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td>
+                                                    <span t-esc="amount_by_group[0]"/>
+                                                    <span>&amp;nbsp;<span>on</span>
+                                                        <t t-esc="amount_by_group[4]"/>
+                                                    </span>
+                                                </td>
+                                                <td class="text-right o_price_total">
+                                                    <span t-esc="amount_by_group[3]"/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                </table>
+                            </div>
+                        </div>
+                    </div> -->
+                    <br/><br/>
+                    <table  style="table-layout:fixed;" width="100%">
+                        <!-- <tbody> -->
+                        <td style="border: 0px; padding-left:50px;">Created By</td>
+                        <td style="border: 0px;" align="center">Confirmed By</td>
+                        <!-- <th style="border: 0px;"><center>For <span t-esc="o.company_id.name"/></center><br/></th> -->
+                        <td style="border: 0px;padding-left:80px;">Approved By </td>
+
+                        <!-- <tr style="border: 0px;">
+                            <td style="border: 0px; padding-left:30px;"  >
+
+                                <span t-field="o.create_uid.name"/>
+                            </td>
+                            <td style="border: 0px;" align="center"></td>
+                            <td style="border: 0px; padding-left:60px;" >
+
+                                For <span t-esc="o.company_id.name"/><br/>
+                            </td>
+
+                        </tr> -->
+                        <!-- </tbody> -->
+                    </table><br/><br/>
+                    <table  style="table-layout:fixed;" width="100%">
+                        <td style="border: 0px; padding-left:50px;"  >
+
+                            <span t-field="o.create_uid.name"/>
+                        </td>
+                        <td style="border: 0px;" align="center"></td>
+                        <td style="border: 0px; padding-left:80px;" >
+
+                            For <span t-esc="o.company_id.name"/><br/>
+                        </td>
+                    </table>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+            <t t-call="hsn_invoice_report.external_layout_po_footer">
+            </t>
+        </t>
+        <p style="page-break-before:always;"> </p>
+    </template>
+
+
+    <template id="report_purchaseorder_ichhapurti">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="hsn_invoice_report.report_purchaseorder_document_ichhapurti" t-lang="o.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+
+
+</odoo>

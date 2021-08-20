@@ -1,0 +1,63 @@
+<odoo>
+    <data>
+
+        <record id="sale_order" model="ir.rule">
+            <field name="name">Warehouse User</field>
+            <field name="model_id" ref="sale_management.model_sale_order"/>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+            <field name="domain_force">[
+                ('warehouse_id', 'in', user.allowed_warehouse_ids.ids)]</field>
+        </record>
+
+        <record id="sale_order_line" model="ir.rule">
+            <field name="name">Warehouse User</field>
+            <field name="model_id" ref="sale_management.model_sale_order_line"/>
+<!--            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>-->
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <record id="sale_order_admin" model="ir.rule">
+            <field name="name">Warehouse Admin</field>
+            <field name="model_id" ref="sale_management.model_sale_order"/>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <record id="purchase_order" model="ir.rule">
+            <field name="name">Warehouse User</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+            <field name="domain_force">[('warehouse_id', 'in', user.allowed_warehouse_ids.ids)]</field>
+        </record>
+
+        <record id="purchase_order_admin" model="ir.rule">
+            <field name="name">Warehouse Admin</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="groups" eval="[(4, ref('stock.group_stock_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+<!--        <record id="stock_picking_type" model="ir.rule">-->
+<!--            <field name="name">Warehouse User</field>-->
+<!--            <field name="model_id" ref="stock.model_stock_picking_type"/>-->
+<!--            <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>-->
+<!--            <field name="domain_force">[('warehouse_id', 'in', user.allowed_warehouse_ids.ids)]</field>-->
+<!--        </record>-->
+
+        <record id="stock_quant" model="ir.rule">
+            <field name="name">Warehouse User</field>
+            <field name="model_id" ref="stock.model_stock_quant"/>
+            <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+            <field name="domain_force">[('location_id', 'in', user.allowed_location_ids.ids)]</field>
+        </record>
+
+        <record id="stock_picking" model="ir.rule">
+            <field name="name">Warehouse user</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+            <field name="domain_force">['|',
+                ('location_id', 'in', user.allowed_location_ids.ids), ('location_dest_id', 'in', user.allowed_location_ids.ids)]</field>
+        </record>
+
+    </data>
+</odoo>

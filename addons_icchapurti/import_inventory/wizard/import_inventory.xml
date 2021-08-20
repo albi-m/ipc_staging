@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+
+        <record id="import_inventory" model="ir.ui.view">
+            <field name="name">Import Inventory Data</field>
+            <field name="model">import.inventory</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                Import Inventory Data
+                            </h1>
+                        </div>
+
+                        <span>Upload the xlsx file</span>
+                        <group>
+                            <field name="inventory_ref"/>
+                            <field name="file_upload"/>
+                            <field name="warehouse"/>
+                            <field name="auto_validate"/>
+
+                        </group>
+                    </sheet>
+
+                    <footer>
+                        <button name="import_data" string="Import" type="object"/>
+                        <button string="Close" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="import_inventory_action" model="ir.actions.act_window">
+            <field name="name">Import Inventory Data</field>
+            <field name="res_model">import.inventory</field>
+            <field name="view_mode">form</field>
+             <field name="view_id" ref="import_inventory"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="import_inventory_menu" name="Import Inventory Adjustment"
+                  action="import_inventory_action" parent="stock.menu_stock_warehouse_mgmt"
+                  sequence="80" />
+    </data>
+</odoo>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_picking_document">
+        <t t-call="web.html_container">
+            <div class="header">
+                <div class="row" style="margin:0px">
+                    <div class="col-4">
+                        <span><img src="/picking_slip/static/description/images/logo_Red.png" style="max-height:60px;"/></span>
+                    </div>
+                    <div class="col-5" style="padding-top:10px">
+                        <div>
+                            <p>
+                                <h4>
+                                    <strong style="padding-top:20px;"><center>Pick List</center></strong>
+                                </h4>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-4" name="right_box">
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:250px;height:50px;" alt="Barcode"/>
+                        <b><span style="padding-left:50px;" t-field="o.name"/></b>
+                    </div>
+                </div>
+                <div style="border-bottom: 1px solid black; font-size: 13px">
+                    <center><strong>Address:</strong><span t-esc="o.company_address"></span></center>
+                </div>
+            </div><div class="row">
+            <h3><strong>Partner Name: <span t-esc="o.partner_id.name"/></strong></h3><br/>
+            <strong>Address: </strong>
+            <span t-esc="o.partner_id.street"></span><span>,</span>
+            <span t-esc="o.partner_id.street2"></span><span>,</span>
+            <span t-esc="o.partner_id.city"></span><span>,</span>
+            <span t-esc="o.partner_id.state_id.name"></span><span>,</span>
+            <span t-esc="o.partner_id.zip"></span><span>,</span>
+            <span t-esc="o.partner_id.country_id.name"></span>
+        </div>
+            <div>
+                <table class="table" width="100%">
+                    <tbody  style="font-size:15px">
+                        <tr style="border-right: 0px;">
+                            <td align="right" style="border: 0px;" width="100%">
+                                <h2>
+                                    <strong><center><span t-esc="o.name"></span></center></strong>
+                                </h2>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page">
+                <table class="table" width="100%">
+                    <tbody  style="font-size:15px">
+                        <tr style="border-right: 0px;">
+                            <td align="left" style="border: 0px;" width="50%">
+                                <strong>Order: </strong><span t-field="o.origin"/><br/>
+                                <strong>Reference Id: </strong><span t-field="o.ref_id"/>
+                            </td>
+                            <td align="right" style="border: 0px;" width="50%">
+                                <b>Date: </b><span t-esc="o.shipping_date"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table width="100%" class="table table-bordered" style="font-size:13px">
+                    <thead>
+                        <tr class="border-bottom" >
+                            <td style="border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;text-align:center"><strong>SL No.</strong></td>
+                            <td style="border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;text-align:center"><strong>Product</strong></td>
+                            <td style="border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;text-align:center"><strong>MRP</strong></td>
+                            <td style="border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;text-align:center"><strong>Sale Price</strong></td>
+                            <td style="border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;text-align:center"><strong>Demand</strong></td>
+                            <td style="border-bottom: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;text-align:center"><strong>Reserved</strong></td>
+                        </tr>
+                    </thead>
+                    <t t-set="i" t-value="1" />
+                    <t t-set="val" t-value="0" />
+                    <tbody>
+                        <!--                        <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.)"/>-->
+                        <tr t-foreach="o.move_lines.filtered(lambda x: x.forecast_availability)" t-as="move" class="border-bottom">
+                            <td  style="border-bottom: 1px solid black;border-left: 1px solid black;text-align:center">
+                                <span t-esc="i"/>
+                                <t t-set="i" t-value="i+1"/>
+                            </td>
+                            <td style="border-bottom: 1px solid black;border-left: 1px solid black;text-align:left">
+                                <span t-field="move.product_id"/>
+                                <p t-if="move.description_picking != move.product_id.name">
+                                    <span t-field="move.description_picking"/>
+                                </p>
+                            </td>
+                            <td style="border-bottom: 1px solid black;border-left: 1px solid black;text-align:center">
+                                <span t-field="move.product_id.mrp"/>
+                            </td>
+
+                            <td style="border-bottom: 1px solid black;border-left: 1px solid black;text-align:center">
+                                <span t-field="move.product_sale_price"/>
+                            </td>
+                            <td style="border-bottom: 1px solid black;border-left: 1px solid black;text-align:center">
+                                <span t-field="move.product_uom_qty"/>
+                            </td>
+                            <td style="border-bottom: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;text-align:center">
+                                <span t-field="move.forecast_availability"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <table class="table table-bordered" width='100%' style="border-bottom:1px solid #000;width:100%;border-left:1px solid #000;width:100%;border-right:1px solid #000;width:100%;font-size:13px">
+                        <tr style="border-top:0px">
+                            <td width="10%"></td>
+                            <td width="50%"  style="text-align:center"><strong>Total</strong></td>
+                            <td width="10%"  style="text-align:right;"><span t-field="o.total_mrp"></span></td>
+                            <td width="10%"  style="text-align:center;"><span t-field="o.total_sale_price"></span></td>
+                            <td width="10%"></td>
+                            <td width="10%" align="center" style="text-align:center;"><span t-field="o.total_reserved"></span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </t>
+        <p style="page-break-after:always"></p>
+    </template>
+
+    <template id="report_pickingslip">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="picking_slip.report_picking_document" t-lang="o.partner_id.lang"/>
+        </t>
+    </template>
+</odoo>
+
+        <!--t-foreach="lines" t-as="move" class="border-bottom"-->

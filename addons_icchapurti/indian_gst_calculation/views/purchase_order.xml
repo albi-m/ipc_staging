@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="purchase_order_form_view">
+            <field name="name">purchase.gst</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_ref" position="after">
+                    
+                    <field name="no_gst" string="No GST" 
+                        attrs="{'readonly':['|', ('state', 'in', ['sent', 'to approve', 'purchase', 'done', 'cancel']), '|', '|', ('CGST_SGST', '=', True), ('IGST','=', True), ('UTGST', '=', True)]}"/>
+
+                    <field name="CGST_SGST" string="CGST + SGST" 
+                        attrs="{'readonly':['|', ('state', 'in', ['sent', 'to approve', 'purchase', 'done', 'cancel']), '|', '|', ('no_gst', '=', True), ('IGST','=', True), ('UTGST', '=', True)]}"/>
+
+                    <field name="IGST" string="IGST" 
+                        attrs="{'readonly':['|', ('state', 'in', ['sent', 'to approve', 'purchase', 'done', 'cancel']), '|', '|', ('no_gst', '=', True), ('CGST_SGST', '=', True), ('UTGST', '=', True)]}"/>
+                    
+                    <field name="UTGST" string="UTGST" 
+                        attrs="{'readonly':['|', ('state', 'in', ['sent', 'to approve', 'purchase', 'done', 'cancel']), '|', '|', ('no_gst', '=', True), ('CGST_SGST', '=', True), ('IGST', '=', True)]}"/>
+                </field>
+                <xpath expr="//field[@name='amount_tax']" position="replace">
+                    <field name="amount_tax" attrs="{'invisible':['|', ('no_gst', '=', True), '|', '|', ('CGST_SGST', '=', True), ('IGST','=', True), ('UTGST', '=', True)]}">
+                    </field>
+                </xpath>
+                <field name="amount_untaxed" position="after">
+
+                    <field name="amount_CGST" string="CGST" readonly="True" widget="monetary" 
+                        attrs="{'invisible':[('amount_CGST','=', 0.0)]}"/>
+                    <field name="amount_SGST" string="SGST" readonly="True" widget="monetary"
+                        attrs="{'invisible':[('amount_SGST','=', 0.0)]}"/>
+                    <field name="amount_IGST" string="IGST" readonly="True" widget="monetary"
+                        attrs="{'invisible':[('amount_IGST','=', 0.0)]}"/>
+                    <field name="amount_UTGST" string="UTGST" readonly="True" widget="monetary"
+                        attrs="{'invisible':[('amount_UTGST','=', 0.0)]}"/>
+                </field>
+<!--                <xpath expr="//field[@name='order_line']/tree//field[@name='taxes_id']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="after">
+                    <field name="HSN_SAC" string="HSN / SAC Code"/>
+                    <field name="purchase_CGST" string="CGST (%)"/>
+                    <field name="purchase_SGST" string="SGST (%)"/>
+                    <field name="purchase_IGST" string="IGST (%)"/>
+                    <field name="purchase_UTGST" string="UTGST (%)"/> 
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

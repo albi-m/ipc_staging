@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- External layouts styles -->
+    <template id="external_layout_inv_header">
+        <!-- Header for the HSN based invoice report -->
+        <div class="header">
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"/>
+                <t t-set="sale_order" t-value="o.invoice_line_ids.mapped('sale_line_ids').order_id"/>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+            <div class="row">
+                <div class="col-4">
+                   <span><img src="/hsn_invoice_report/static/description/images/logo_Red.png" style="max-height:60px;"/></span>
+                </div>
+                <div class="col-5" style="padding-top:10px">
+                    <div>
+                        <p>
+                            <h4>
+                                <strong style="padding-top:20px;"><center>Tax Invoice</center></strong>
+                            </h4>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-4" name="right_box">
+                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:250px;height:50px;" alt="Barcode"/>
+                    <b><span style="padding-left:50px;" t-field="o.name"/></b>
+                </div>
+            </div>
+            <div style="font-size:20px;">
+                <center><strong><span t-esc="o.company_id.name"></span></strong></center>
+            </div>
+            <div style="border-bottom: 1px solid black; font-size: 13px">
+                <t t-if="sale_order">
+                    <center>
+                        <strong>Address:</strong>
+                        <span t-esc="sale_order.warehouse_id.partner_id.name"></span><span>,</span>
+                        <span t-esc="sale_order.warehouse_id.partner_id.street"></span><span>,</span>
+                        <span t-esc="sale_order.warehouse_id.partner_id.street2"></span><span>,</span>
+                        <span t-esc="sale_order.warehouse_id.partner_id.city"></span><span>,</span>
+                        <span t-esc="sale_order.warehouse_id.partner_id.state_id.name"></span><span>,</span>
+                        <span t-esc="sale_order.warehouse_id.partner_id.zip"></span><span>,</span>
+                        <span t-esc="sale_order.warehouse_id.partner_id.country_id.name"></span>
+                    </center>
+                </t>
+<!--                <center><strong>Registered Address:</strong><span t-esc="o.company_id.social_twitter"></span></center>-->
+                <h7><strong><center>Phone : <span t-esc="o.company_id.phone"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;EMAIL : <span t-esc="o.company_id.email"/></center></strong></h7>
+            </div>
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-raw="0" />
+        </div>
+    </template>
+    <template id="external_layout_inv_footer">
+        <!-- Footer for the HSN based invoice report -->
+        <div class="footer">
+            <div style="border-top: 1px solid black; font-size: 12px">
+                <center><strong>Corporate Address:</strong><span t-esc="o.company_address"></span></center>
+                <center><strong>Registered Address:</strong><span t-esc="o.company_id.social_twitter"></span></center>
+                <center><strong>PAN : </strong><span t-esc="o.company_id.pan_number"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                        <strong>CIN : </strong><span t-esc="o.company_id.company_registry"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                        <strong>Website : </strong><span t-esc="o.company_id.website"/></center>
+            </div>
+        </div>
+    </template>
+<!--    <template id="external_layout_po_footer">-->
+<!--        &lt;!&ndash; Footer for the HSN based invoice report &ndash;&gt;-->
+<!--        <div class="footer">-->
+<!--            <div style="border-bottom: 1px solid black; font-size: 13px">-->
+<!--                    <center><strong>Corporate Address:</strong><span t-esc="o.company_address"></span></center>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </template>-->
+    <template id="external_layout_po_header">
+        <!-- Header for the HSN based invoice report -->
+        <div class="header">
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"/>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+            <div class="row">
+                <div class="col-4">
+                   <span><img src="/hsn_invoice_report/static/description/images/logo_Red.png" style="max-height:60px;"/></span>
+                </div>
+                <div class="col-5">
+<!--                    <div>-->
+<!--                        <p>-->
+<!--                            <h4>-->
+<!--                                <strong style="padding-top:20px;"><center><span t-esc="o.company_id.name"/></center></strong>-->
+<!--                            </h4>-->
+<!--                        </p>-->
+<!--                    </div>-->
+                </div>
+                <div class="col-4" name="right_box">
+                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:300px;height:50px;" alt="Barcode"/>
+                    <b><span style="padding-left: 120px;" t-field="o.name"/></b>
+                </div>
+            </div>
+            <div style="font-size:20px;">
+                <center><strong><span t-esc="o.company_id.name"></span></strong></center>
+            </div>
+            <div style="border-bottom: 1px solid black; font-size: 13px">
+                    <center><strong>Corporate Address:</strong><span t-esc="o.company_address"></span></center>
+                <center><strong>Registered Address:</strong><span t-esc="o.company_id.social_twitter"></span></center>
+                <h5><strong><center>GST : <span t-esc="o.company_id.vat"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;CIN : <span t-esc="o.company_id.company_registry"/></center></strong></h5>
+                </div>
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-raw="0" />
+        </div>
+    </template>
+    <template id="external_layout_po_footer">
+        <!-- Footer for the HSN based invoice report -->
+        <div class="footer">
+            <div style="border-bottom: 1px solid black; font-size: 13px">
+                    <center><strong>Corporate Address:</strong><span t-esc="o.company_address"></span></center>
+            </div>
+        </div>
+    </template>
+</odoo>
